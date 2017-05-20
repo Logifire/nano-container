@@ -3,8 +3,10 @@
     "description": "Description of project naive-container.",
     "require": {
         "psr/container": "1.0.0",
-        "nette/tester": "^1.7.1",
         "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "nette/tester": "^1.7.1"
     },
     "autoload": {
         "psr-4": {
@@ -13,7 +15,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "NaiveContainer\\Test\\": "test"
+            "NaiveContainer\\Test\\": "tests"
         }
     }
 }

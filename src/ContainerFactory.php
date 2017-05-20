@@ -28,6 +28,11 @@ class ContainerFactory
         $this->factory_stack[$id] = $value;
     }
 
+    public function addProvider(FactoryProvider $provider)
+    {
+        $provider->register($this);
+    }
+
     public function createContainer()
     {
         $container = new Container();

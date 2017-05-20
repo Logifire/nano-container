@@ -75,10 +75,20 @@ class ContainerTest extends TestCase
             throw new RuntimeException();
         });
         $container = $this->factory->createContainer();
-        
+
         Assert::exception(function() use ($container) {
             $container->get(self::REGISTER_COMPONENT_ID);
         }, ContainerException::class);
+    }
+
+    public function testProvider()
+    {
+        $this->factory->addProvider(new TestProvider());
+        $container = $this->factory->createContainer();
+        
+        Assert::equal(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_VALUE));
+        
+        Assert::equal(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_SERVICE));
     }
 }
 
