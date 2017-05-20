@@ -1,0 +1,19 @@
+{
+    "name": "logifire/naive-container",
+    "description": "Description of project naive-container.",
+    "require": {
+        "psr/container": "1.0.0",
+        "nette/tester": "^1.7.1",
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NaiveContainer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NaiveContainer\\Test\\": "test"
+        }
+    }
+}
