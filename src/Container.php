@@ -10,6 +10,7 @@ class Container implements ContainerInterface
 {
 
     protected $container_stack = [];
+    protected $instances = [];
 
     public function get($id)
     {
@@ -18,15 +19,16 @@ class Container implements ContainerInterface
         }
 
         if (is_callable($this->container_stack[$id])) {
-            try {
-                // entry: service or value
-                $entry = call_user_func($this->container_stack[$id], $this);
-            } catch (NotFoundException $e) {
-                throw $e;
-            } catch (\Exception $e) {
-                throw new ContainerException($e->getMessage());
+            if (!array_key_exists($id, $this->instances)) {
+                try {
+                    $this->instances[$id] = call_user_func($this->container_stack[$id], $this);
+                } catch (NotFoundException $e) {
+                    throw $e;
+                } catch (\Exception $e) {
+                    throw new ContainerException($e->getMessage());
+                }
             }
-            return $entry;
+            return $this->instances[$id];
         }
 
         return $this->container_stack[$id];
