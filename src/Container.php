@@ -19,11 +19,14 @@ class Container implements ContainerInterface
 
         if (is_callable($this->container_stack[$id])) {
             try {
-                $value = call_user_func($this->container_stack[$id]);
+                // entry: service or value
+                $entry = call_user_func($this->container_stack[$id], $this);
+            } catch (NotFoundException $e) {
+                throw $e;
             } catch (\Exception $e) {
                 throw new ContainerException($e->getMessage());
             }
-            return $value;
+            return $entry;
         }
 
         return $this->container_stack[$id];

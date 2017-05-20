@@ -62,8 +62,8 @@ class ContainerTest extends TestCase
 
     public function testRegisterComponent()
     {
-        $this->factory->register(self::REGISTER_COMPONENT_ID, function() {
-            return self::EXPECTED_VALUE;
+        $this->factory->register(self::REGISTER_COMPONENT_ID, function($container) {
+            return $container->get(self::SET_COMPONENT_ID);
         });
         $container = $this->factory->createContainer();
         Assert::equal(self::EXPECTED_VALUE, $container->get(self::REGISTER_COMPONENT_ID));
