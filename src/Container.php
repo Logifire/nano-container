@@ -15,7 +15,7 @@ class Container implements ContainerInterface
     public function get($id)
     {
         if (!array_key_exists($id, $this->container_stack)) {
-            throw new NotFoundException();
+            throw new NotFoundException("Couldn't find {$id}");
         }
 
         if (is_callable($this->container_stack[$id])) {
