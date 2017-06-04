@@ -12,7 +12,7 @@ class ContainerFactory
 
     public function register($id, Closure $closure)
     {
-        if (isset($this->factory_stack[$id])) {
+        if (array_key_exists($id, $this->factory_stack)) {
             throw new DuplicateKeyException();
         }
 
@@ -21,7 +21,7 @@ class ContainerFactory
 
     public function set($id, $value)
     {
-        if (isset($this->factory_stack[$id])) {
+        if (array_key_exists($id, $this->factory_stack)) {
             throw new DuplicateKeyException();
         }
 
