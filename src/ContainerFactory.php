@@ -3,7 +3,6 @@
 namespace NaiveContainer;
 
 use Closure;
-use NaiveContainer\Exceptions\DuplicateKeyException;
 
 class ContainerFactory
 {
@@ -12,19 +11,11 @@ class ContainerFactory
 
     public function register($id, Closure $closure)
     {
-        if (array_key_exists($id, $this->factory_stack)) {
-            throw new DuplicateKeyException();
-        }
-
         $this->factory_stack[$id] = $closure;
     }
 
     public function set($id, $value)
     {
-        if (array_key_exists($id, $this->factory_stack)) {
-            throw new DuplicateKeyException();
-        }
-
         $this->factory_stack[$id] = $value;
     }
 

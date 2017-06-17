@@ -4,7 +4,6 @@ namespace NaiveContainer\Test;
 
 use NaiveContainer\ContainerFactory;
 use NaiveContainer\Exceptions\ContainerException;
-use NaiveContainer\Exceptions\DuplicateKeyException;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
 use Tester\Assert;
@@ -42,10 +41,6 @@ class ContainerTest extends TestCase
 
     public function testSetAndGetComponent()
     {
-        Assert::exception(function() {
-            $this->factory->set(self::SET_COMPONENT_ID, 100);
-        }, DuplicateKeyException::class);
-
         $container = $this->factory->createContainer();
 
         Assert::equal(42, $container->get(self::SET_COMPONENT_ID));
