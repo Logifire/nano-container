@@ -1,8 +1,9 @@
 {
     "name": "logifire/naive-container",
-    "description": "Description of project naive-container.",
+    "description": "PSR-11 container",
+    "license": "MIT",
     "require": {
-        "psr/container": "1.0.0",
+        "psr/container": "^1.0.0",
         "php": ">=7.0.0"
     },
     "require-dev": {
@@ -17,5 +18,8 @@
         "psr-4": {
             "NaiveContainer\\Test\\": "tests"
         }
+    },
+    "provide": {
+        "psr/container": "^1.0.0"
     }
 }
