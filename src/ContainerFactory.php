@@ -30,6 +30,7 @@ class ContainerFactory
         $bootstrap = function($stack) {
             $this->container_stack = $stack;
         };
+        // Call the closure within the container scope
         $bootstrap->call($container, $this->factory_stack);
 
         return $container;
