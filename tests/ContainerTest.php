@@ -1,18 +1,11 @@
 <?php
-
 namespace NaiveContainer\Test;
 
 use NaiveContainer\ContainerFactory;
 use NaiveContainer\Exceptions\ContainerException;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
-use Tester\Assert;
-use Tester\Environment;
-use Tester\TestCase;
-
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-Environment::setup();
 
 class ContainerTest extends TestCase
 {
@@ -33,26 +26,25 @@ class ContainerTest extends TestCase
 
     public function testNoComponent()
     {
+        $this->expectException(NotFoundExceptionInterface::class);
         $container = $this->factory->createContainer();
-        Assert::exception(function() use ($container) {
-            $container->get(self::INVALID_COMPONENT_ID);
-        }, NotFoundExceptionInterface::class);
+        $container->get(self::INVALID_COMPONENT_ID);
     }
 
     public function testSetAndGetComponent()
     {
         $container = $this->factory->createContainer();
 
-        Assert::equal(42, $container->get(self::SET_COMPONENT_ID));
+        $this->assertSame(42, $container->get(self::SET_COMPONENT_ID));
     }
 
     public function testHasComponent()
     {
         $container = $this->factory->createContainer();
 
-        Assert::true($container->has(self::SET_COMPONENT_ID));
+        $this->assertTrue($container->has(self::SET_COMPONENT_ID));
 
-        Assert::false($container->has(self::INVALID_COMPONENT_ID));
+        $this->assertFalse($container->has(self::INVALID_COMPONENT_ID));
     }
 
     public function testRegisterComponent()
@@ -61,32 +53,28 @@ class ContainerTest extends TestCase
             return $container->get(self::SET_COMPONENT_ID);
         });
         $container = $this->factory->createContainer();
-        Assert::equal(self::EXPECTED_VALUE, $container->get(self::REGISTER_COMPONENT_ID));
+        $this->assertSame(self::EXPECTED_VALUE, $container->get(self::REGISTER_COMPONENT_ID));
     }
 
     public function testRegisterException()
     {
+        $this->expectException(ContainerException::class);
+
         $this->factory->register(self::REGISTER_COMPONENT_ID, function() {
             throw new RuntimeException();
         });
         $container = $this->factory->createContainer();
 
-        Assert::exception(function() use ($container) {
-            $container->get(self::REGISTER_COMPONENT_ID);
-        }, ContainerException::class);
+        $container->get(self::REGISTER_COMPONENT_ID);
     }
 
     public function testProvider()
     {
         $this->factory->addProvider(new TestProvider());
         $container = $this->factory->createContainer();
-        
-        Assert::equal(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_VALUE));
-        
-        Assert::equal(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_SERVICE));
+
+        $this->assertSame(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_VALUE));
+
+        $this->assertSame(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_SERVICE));
     }
 }
-
-(new ContainerTest)->run();
-
-
