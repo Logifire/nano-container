@@ -6,10 +6,9 @@ use NaiveContainer\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use Exception;
 
-class Container implements ContainerInterface
+class Container extends ContainerOptions implements ContainerInterface
 {
 
-    protected $container_stack = [];
     protected $instances = [];
 
     public function get($id)

@@ -3,7 +3,7 @@ namespace NaiveContainer;
 
 use Closure;
 
-class ContainerFactory
+class ContainerFactory extends ContainerOptions
 {
 
     protected $factory_stack = [];
@@ -26,11 +26,7 @@ class ContainerFactory
     public function createContainer()
     {
         $container = new Container();
-        $bootstrap = function($stack) {
-            $this->container_stack = $stack;
-        };
-        // Call the closure within the container scope
-        $bootstrap->call($container, $this->factory_stack);
+        $container->container_stack = $this->factory_stack;
 
         return $container;
     }
