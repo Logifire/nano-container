@@ -12,6 +12,7 @@ class ContainerTest extends TestCase
 
     const SET_COMPONENT_ID = 'set_component_id';
     const REGISTER_COMPONENT_ID = 'register_component_id';
+    const REGISTER_COMPONENT_NULL_ID = 'register_component_null_id';
     const EXPECTED_VALUE = 42;
     const INVALID_COMPONENT_ID = 'invalid_component_id';
 
@@ -33,18 +34,26 @@ class ContainerTest extends TestCase
 
     public function testSetAndGetComponent()
     {
+        $this->factory->set(self::REGISTER_COMPONENT_NULL_ID, null);
+        
         $container = $this->factory->createContainer();
 
-        $this->assertSame(42, $container->get(self::SET_COMPONENT_ID));
+        $this->assertSame(self::EXPECTED_VALUE, $container->get(self::SET_COMPONENT_ID));
+        
+        $this->assertNull($container->get(self::REGISTER_COMPONENT_NULL_ID));
     }
 
     public function testHasComponent()
     {
+        $this->factory->set(self::REGISTER_COMPONENT_NULL_ID, null);
+
         $container = $this->factory->createContainer();
 
         $this->assertTrue($container->has(self::SET_COMPONENT_ID));
 
         $this->assertFalse($container->has(self::INVALID_COMPONENT_ID));
+
+        $this->assertTrue($container->has(self::REGISTER_COMPONENT_NULL_ID), 'Should return true on key');
     }
 
     public function testRegisterComponent()
@@ -52,8 +61,14 @@ class ContainerTest extends TestCase
         $this->factory->register(self::REGISTER_COMPONENT_ID, function($container) {
             return $container->get(self::SET_COMPONENT_ID);
         });
+        $this->factory->register(self::REGISTER_COMPONENT_NULL_ID, function($container) {
+            return null;
+        });
+
         $container = $this->factory->createContainer();
+
         $this->assertSame(self::EXPECTED_VALUE, $container->get(self::REGISTER_COMPONENT_ID));
+        $this->assertNull($container->get(self::REGISTER_COMPONENT_NULL_ID));
     }
 
     public function testRegisterException()

@@ -1,5 +1,4 @@
 <?php
-
 namespace NaiveContainer;
 
 use NaiveContainer\Exceptions\ContainerException;
@@ -20,7 +19,9 @@ class Container implements ContainerInterface
         }
 
         if (is_callable($this->container_stack[$id])) {
-            if (!array_key_exists($id, $this->instances)) {
+            // Performance optimization, isset returns false on null values, but is faster
+            // https://stackoverflow.com/a/9522522/10604655
+            if (!isset($this->instances[$id]) || !array_key_exists($id, $this->instances)) {
                 try {
                     $this->instances[$id] = call_user_func($this->container_stack[$id], $this);
                 } catch (NotFoundException $e) {
@@ -37,6 +38,6 @@ class Container implements ContainerInterface
 
     public function has($id)
     {
-        return array_key_exists($id, $this->container_stack);
+        return (isset($this->container_stack[$id]) || array_key_exists($id, $this->container_stack));
     }
 }
