@@ -4,5 +4,5 @@ namespace NaiveContainer;
 
 interface FactoryProvider
 {
-    public function register(ContainerFactory $factory);
+    public function register(ContainerFactory $factory): void;
 }

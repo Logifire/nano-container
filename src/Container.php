@@ -6,9 +6,14 @@ use NaiveContainer\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use Exception;
 
-class Container extends ContainerOptions implements ContainerInterface
+class Container extends ContainerDecorator implements ContainerInterface
 {
 
+    /**
+     * Instantiated parts
+     * 
+     * @var mixed 
+     */
     protected $instances = [];
 
     public function get($id)
@@ -33,7 +38,7 @@ class Container extends ContainerOptions implements ContainerInterface
         return $this->container_stack[$id];
     }
 
-    public function has($id)
+    public function has($id): bool
     {
         return (isset($this->container_stack[$id]) || array_key_exists($id, $this->container_stack));
     }

@@ -13,7 +13,7 @@ class TestProvider implements FactoryProvider
     const PROVIDER_SERVICE = 'provider_service';
     const EXPECTED_VALUE = 12;
 
-    public function register(ContainerFactory $factory)
+    public function register(ContainerFactory $factory): void
     {
         $factory->set(self::PROVIDER_VALUE, self::EXPECTED_VALUE);
 
