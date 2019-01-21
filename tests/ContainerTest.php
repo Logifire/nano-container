@@ -35,11 +35,11 @@ class ContainerTest extends TestCase
     public function testSetAndGetComponent()
     {
         $this->factory->set(self::REGISTER_COMPONENT_NULL_ID, null);
-        
+
         $container = $this->factory->createContainer();
 
         $this->assertSame(self::EXPECTED_VALUE, $container->get(self::SET_COMPONENT_ID));
-        
+
         $this->assertNull($container->get(self::REGISTER_COMPONENT_NULL_ID));
     }
 
@@ -91,5 +91,22 @@ class ContainerTest extends TestCase
         $this->assertSame(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_VALUE));
 
         $this->assertSame(TestProvider::EXPECTED_VALUE, $container->get(TestProvider::PROVIDER_SERVICE));
+    }
+
+    public function testInitializationOptimization()
+    {
+        $id = 'performance';
+        $this->factory->register($id, function() {
+            static $var = 0;
+            if ($var == 0) {
+                $var++;
+                return null;
+            }
+            return $var;
+        });
+        $container = $this->factory->createContainer();
+
+        $this->assertSame(null, $container->get($id));
+        $this->assertSame(null, $container->get($id), 'Should not run the closure initialization twice');
     }
 }
