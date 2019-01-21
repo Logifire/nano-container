@@ -5,6 +5,7 @@ namespace NaiveContainer;
 use NaiveContainer\Exceptions\ContainerException;
 use NaiveContainer\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
+use Exception;
 
 class Container implements ContainerInterface
 {
@@ -24,7 +25,7 @@ class Container implements ContainerInterface
                     $this->instances[$id] = call_user_func($this->container_stack[$id], $this);
                 } catch (NotFoundException $e) {
                     throw $e;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     throw new ContainerException($e->getMessage());
                 }
             }
