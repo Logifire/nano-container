@@ -29,7 +29,7 @@ class Container extends ContainerDecorator implements ContainerInterface
                 try {
                     $this->instances[$id] = call_user_func($this->container_stack[$id], $this);
                 } catch (Exception $e) {
-                    throw new ContainerException($e->getMessage());
+                    throw new ContainerException($e->getMessage() . " - Tried to call {$id}");
                 }
             }
             return $this->instances[$id];
