@@ -4,6 +4,7 @@ namespace NaiveContainer\Test;
 use NaiveContainer\ContainerFactory;
 use NaiveContainer\Exceptions\ContainerException;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
 
@@ -18,6 +19,9 @@ class ContainerTest extends TestCase
 
     protected $factory = null;
 
+    /**
+     * This method is called before each test.
+     */
     public function setUp()
     {
         $factory = new ContainerFactory();
@@ -58,10 +62,10 @@ class ContainerTest extends TestCase
 
     public function testRegisterComponent()
     {
-        $this->factory->register(self::REGISTER_COMPONENT_ID, function($container) {
+        $this->factory->register(self::REGISTER_COMPONENT_ID, function(ContainerInterface $container) {
             return $container->get(self::SET_COMPONENT_ID);
         });
-        $this->factory->register(self::REGISTER_COMPONENT_NULL_ID, function($container) {
+        $this->factory->register(self::REGISTER_COMPONENT_NULL_ID, function(ContainerInterface $container) {
             return null;
         });
 
