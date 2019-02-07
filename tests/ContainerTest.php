@@ -113,4 +113,19 @@ class ContainerTest extends TestCase
         $this->assertSame(null, $container->get($id));
         $this->assertSame(null, $container->get($id), 'Should not run the closure initialization twice');
     }
+
+    public function testCircularDependencies()
+    {
+        $this->factory->register('A', function(ContainerInterface $container) {
+            return $container->get('B');
+        });
+
+        $this->factory->register('B', function(ContainerInterface $container) {
+            return $container->get('A');
+        });
+
+        $this->expectException(ContainerException::class);
+
+        $this->factory->createContainer()->get('A');
+    }
 }
