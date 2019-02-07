@@ -17,7 +17,7 @@ class Container extends ContainerDecorator implements ContainerInterface
     protected $instances = [];
 
     /**
-     * @var string[] 
+     * @var bool[id] 
      */
     protected $call_stack = [];
 
