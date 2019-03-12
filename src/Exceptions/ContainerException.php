@@ -1,6 +1,6 @@
 <?php
 
-namespace NaiveContainer\Exceptions;
+namespace NanoContainer\Exceptions;
 
 use Exception;
 use Psr\Container\ContainerExceptionInterface;

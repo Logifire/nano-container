@@ -1,10 +1,10 @@
 <?php
 
-namespace NaiveContainer\Test;
+namespace NanoContainer\Test;
 
-use NaiveContainer\Container;
-use NaiveContainer\ContainerFactory;
-use NaiveContainer\FactoryProvider;
+use NanoContainer\Container;
+use NanoContainer\ContainerFactory;
+use NanoContainer\FactoryProvider;
 
 class TestProvider implements FactoryProvider
 {

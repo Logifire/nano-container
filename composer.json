@@ -11,12 +11,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NaiveContainer\\": "src"
+            "NanoContainer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NaiveContainer\\Test\\": "tests"
+            "NanoContainer\\Test\\": "tests"
         }
     },
     "provide": {

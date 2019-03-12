@@ -1,6 +1,6 @@
 <?php
 
-namespace NaiveContainer;
+namespace NanoContainer;
 
 interface FactoryProvider
 {

@@ -1,8 +1,8 @@
 <?php
-namespace NaiveContainer\Test;
+namespace NanoContainer\Test;
 
-use NaiveContainer\ContainerFactory;
-use NaiveContainer\Exceptions\ContainerException;
+use NanoContainer\ContainerFactory;
+use NanoContainer\Exceptions\ContainerException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;

@@ -1,8 +1,8 @@
 <?php
-namespace NaiveContainer;
+namespace NanoContainer;
 
-use NaiveContainer\Exceptions\ContainerException;
-use NaiveContainer\Exceptions\NotFoundException;
+use NanoContainer\Exceptions\ContainerException;
+use NanoContainer\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use Exception;
 

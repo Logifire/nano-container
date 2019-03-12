@@ -1,5 +1,5 @@
 <?php
-namespace NaiveContainer;
+namespace NanoContainer;
 
 abstract class ContainerDecorator
 {
