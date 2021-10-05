@@ -22,7 +22,7 @@ class ContainerTest extends TestCase
     /**
      * This method is called before each test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $factory = new ContainerFactory();
         $factory->set(self::SET_COMPONENT_ID, self::EXPECTED_VALUE);
