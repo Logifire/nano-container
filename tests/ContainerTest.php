@@ -8,13 +8,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
 
+
 class ContainerTest extends TestCase
 {
 
     const SET_COMPONENT_ID = 'set_component_id';
     const REGISTER_COMPONENT_ID = 'register_component_id';
     const REGISTER_COMPONENT_NULL_ID = 'register_component_null_id';
-    const EXPECTED_VALUE = 42;
+    const EXPECTED_VALUE = 'The answer is 42';
     const INVALID_COMPONENT_ID = 'invalid_component_id';
 
     protected $factory = null;
@@ -62,8 +63,8 @@ class ContainerTest extends TestCase
 
     public function testRegisterComponent()
     {
-        $this->factory->register(self::REGISTER_COMPONENT_ID, function(ContainerInterface $container) {
-            return $container->get(self::SET_COMPONENT_ID);
+        $this->factory->register(TestService::class, function(ContainerInterface $container) {
+            return new TestService(service_name: $container->get(self::SET_COMPONENT_ID));
         });
         $this->factory->register(self::REGISTER_COMPONENT_NULL_ID, function(ContainerInterface $container) {
             return null;
@@ -71,7 +72,7 @@ class ContainerTest extends TestCase
 
         $container = $this->factory->createContainer();
 
-        $this->assertSame(self::EXPECTED_VALUE, $container->get(self::REGISTER_COMPONENT_ID));
+        $this->assertSame(self::EXPECTED_VALUE, $container->get(TestService::class)->service_name);
         $this->assertNull($container->get(self::REGISTER_COMPONENT_NULL_ID));
     }
 

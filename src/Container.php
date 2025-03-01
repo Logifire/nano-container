@@ -1,4 +1,5 @@
 <?php
+
 namespace NanoContainer;
 
 use NanoContainer\Exceptions\ContainerException;
@@ -8,20 +9,23 @@ use Exception;
 
 class Container extends ContainerDecorator implements ContainerInterface
 {
-
     /**
      * Instantiated parts
-     * 
-     * @var mixed 
+     * @var array<string,mixed>
      */
-    protected $instances = [];
+    protected array $instances = [];
 
     /**
-     * @var bool[id] 
+     * @var array<string,bool>
      */
-    protected $call_stack = [];
+    protected array $call_stack = [];
 
-    public function get($id)
+    /**
+     * @template T of object
+     * @param class-string<T> $id
+     * @return T
+     */
+    public function get(string $id): mixed
     {
         if (!$this->has($id)) {
             throw new NotFoundException("Couldn't find {$id}");
@@ -31,7 +35,6 @@ class Container extends ContainerDecorator implements ContainerInterface
             // Performance optimization, isset returns false on null values, but is faster
             // https://stackoverflow.com/a/9522522/10604655
             if (!isset($this->instances[$id]) && !array_key_exists($id, $this->instances)) {
-
                 if (isset($this->call_stack[$id])) {
                     throw new ContainerException("Circular dependency detected when calling {$id}");
                 }
@@ -39,9 +42,9 @@ class Container extends ContainerDecorator implements ContainerInterface
                 $this->call_stack[$id] = true;
 
                 try {
-                    $this->instances[$id] = call_user_func($this->container_stack[$id], $this);
+                    $this->instances[$id] = ($this->container_stack[$id])($this);
                 } catch (Exception $e) {
-                    throw new ContainerException($e->getMessage() . " - Tried to call {$id}");
+                    throw new ContainerException("{$e->getMessage()} - Tried to call {$id}");
                 }
 
                 $this->call_stack = [];
@@ -53,8 +56,8 @@ class Container extends ContainerDecorator implements ContainerInterface
         return $this->container_stack[$id];
     }
 
-    public function has($id): bool
+    public function has(string $id): bool
     {
-        return (isset($this->container_stack[$id]) || array_key_exists($id, $this->container_stack));
+        return isset($this->container_stack[$id]) || array_key_exists($id, $this->container_stack);
     }
 }
